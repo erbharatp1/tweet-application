@@ -1,0 +1,19 @@
+---------bharat---04-july-2020--------------
+
+ALTER TABLE `Position` ADD `approvalRemark` TEXT NULL DEFAULT NULL AFTER `remark`;
+
+ALTER TABLE `PositionInterviewlevelXRef` ADD `levelIndex` VARCHAR(11) NULL DEFAULT NULL AFTER 
+`levelName`, ADD `internalInterviewerId` INT(11) NULL DEFAULT NULL AFTER `levelIndex`;
+
+ALTER TABLE `PositionInterviewlevelXRef` CHANGE `externalInterviewerName` `externalInterviewerName`
+ VARCHAR(500) CHARACTER SET latin1 COLLATE
+ latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `Position` CHANGE `requiredExperience` `requiredExperience` VARCHAR(12) NOT NULL;
+
+ALTER TABLE `Position` ADD `noOfInterviewLevel` INT(11) NULL DEFAULT NULL AFTER `positionType`;
+
+--------------------------Singya Bhalse------------------------------------------------------------------------------
+ALTER TABLE `CandidateEvolution` ADD `dateUpdated` DATE NULL DEFAULT NULL AFTER `dateCreated`;
+ALTER TABLE `CandidateEvolution` ADD `filePath` VARCHAR(500) NULL DEFAULT NULL AFTER `fileName`;
+ALTER TABLE `CandidateEvolution` ADD `fileName` VARCHAR(300) NULL DEFAULT NULL AFTER `remark`;

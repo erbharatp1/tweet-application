@@ -1,0 +1,44 @@
+--------------------------Nisha Parveen--------------13/07/2020------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE `CandidateLetter` (
+  `candidateLetterId` int(11) NOT NULL,
+  `letterId` int(11) NOT NULL,
+  `interviewScheduleId` int(11) NOT NULL,
+  
+`letterDescription` text,
+  `candidateStatus` varchar(5) DEFAULT NULL,
+  `releaseStatus` varchar(5) DEFAULT NULL,
+  `hrStatus` varchar(5) DEFAULT NULL,
+  
+`declerationDate` date DEFAULT NULL,
+  `declerationStatus` varchar(10) DEFAULT NULL,
+  `activeStatus` varchar(10) DEFAULT NULL,
+  `dateCreated` datetime DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+ALTER TABLE `CandidateLetter`
+  ADD PRIMARY KEY (`candidateLetterId`),
+  ADD KEY `letterId` (`letterId`),
+  ADD KEY `interviewScheduleId_2` (`interviewScheduleId`);
+
+
+
+ALTER TABLE `CandidateLetter`
+  MODIFY `candidateLetterId` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `CandidateLetter`
+  ADD CONSTRAINT `CandidateLetter_ibfk_1` FOREIGN KEY (`letterId`) REFERENCES `Letter` (`letterId`);
+
+
+------------------------Shubham Yaduwanshi ----------14-07-2020-------------------------
+
+ALTER TABLE `PunchTimeDetail` ADD `fileLocation` VARCHAR(255) NULL AFTER `outTimeaddress`;
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

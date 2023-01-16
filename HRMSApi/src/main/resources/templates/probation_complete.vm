@@ -1,0 +1,146 @@
+<div style="margin: 0; padding: 0">
+  <table style="background-color: #F0F0F0; margin: 0; padding: 0; " width="100%" cellspacing="0" cellpadding="0" align="center">
+  <tbody><tr>
+    <td align="center">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tbody><tr>
+                      <td width="100%" height="30">
+                      </td>
+                    </tr>
+                  </tbody></table>
+      <table style="max-width:640px;border-top: solid 8px #143697;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+        <tbody><tr>
+          <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" align="center">
+            
+                  <table style="max-width:640px; background-color: #ffffff;border-top: ;" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                    <tbody><tr>
+                      <td style="font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;  font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a2e3b;" bgcolor="#ffffff" align="center">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                          <tbody>
+                          <tr>
+                            <td height="35">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="color: #143697; font-family: 'Helvetica Neue', helvetica, arial, sans-serif; font-size: 28px; line-height: 22px; text-align: center; font-weight: bold; padding-right: 15px; padding-left: 15px;">
+                              Probation Completed
+                            </td>
+                          </tr>
+                          <tr>
+                            <td height="15">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 24px; color: #00185C; max-width: 600px;padding-left:15px;padding-right:15px;font-weight: bold;text-align: left;" align="center">
+                              Hi Team, 
+                            </td>
+                          </tr>
+                <tr>
+                            <td height="6">
+                            </td>
+                          </tr>
+                <tr>
+                            <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; color: #000; max-width: 600px;padding-left:15px;padding-right:15px;text-align: left;" align="center">
+                              Below Employee's Probation has completed as:
+                            </td>
+                          </tr>                         
+                          </tbody></table><table style="min-width: 640px;" width="640">
+                            <tbody>
+                          
+              </tbody></table>
+                          </td>
+              </tr>
+                          <tr>
+                            <td width="100%" height="20" bgcolor="#ffffff">
+                            </td>
+                          </tr>
+                        </tbody></table>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                  <table style="max-width: 640px;background: #fff;" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                    
+                    <tbody><tr>
+                      <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" align="center">
+            
+                  <table style="max-width:640px; background-color: #ffffff;border-top: ;" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                    <tbody><tr>
+                      <td style="  font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a2e3b;" bgcolor="#ffffff" align="center">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                          
+                          
+                          
+                          
+                          <tbody><tr>
+                            <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 24px; color: #00185C; max-width: 600px;padding-left:15px;padding-right:15px;font-weight: bold;text-align: left;" align="center">
+                              <table style="max-width:640px; border:1px solid #C8C8C8;font-family: Source Sans Pro;text-align: center;margin: 0 auto;border-bottom: 0;" width="100%" cellspacing="0" cellpadding="0">
+                                
+                                  <thead style="background: #143697;font-size: 14px;color: #fff;font-weight: bold;text-align: center;padding-top: 10px;padding-bottom: 10px;padding-top: 10px;padding-bottom: 10px;padding-top: 10px;padding-bottom: 10px;padding-top: 10px;padding-bottom: 10px;padding-top: 10px;padding-bottom: 10px;padding-top: 11px;padding-bottom: 11px;padding-top: 11px;padding-bottom: 11px;padding-top: 11px;padding-bottom: 11px;">
+                                    <tr>
+                                    <td style="padding-left: 15px;text-align: left;padding-top: 11px;padding-bottom: 11px;">Name</td>
+                                    <td style="padding-top: 11px;padding-bottom: 11px;">Employee Code</td>
+                                    <td style="padding-top: 11px;padding-bottom: 11px;">Department</td>
+                                    <td style="padding-top: 11px;padding-bottom: 11px;">DOJ</td>
+                                    <td style="padding-top: 11px;padding-bottom: 11px;">Probation Last Date</td>
+                                  </tr></thead>
+                                  <tbody>
+                                    #foreach ($employeeList in $employeeListPrabation)
+                                   <tr style="border-bottom: 1px solid red;border-collapse: collapse;">                            
+                                    <td style="font-size: 14px;padding-left: 15px;color: #000000;padding-top: 11px;padding-bottom: 11px;text-align: left;border-bottom: 1px solid #C8C8C8;vertical-align: middle;width: 100px;word-break: break-all;line-height: 20px;">$employeeList.getFirstName()</td>
+                                    <td style="font-size: 14px;color: #000;padding-top: 11px;padding-bottom: 11px;border-bottom: 1px solid #C8C8C8;vertical-align: middle;">$employeeList.getEmployeeCode()</td>
+                                    <td style="font-size: 14px;color: #000;padding-top: 11px;padding-bottom: 11px;border-bottom: 1px solid #C8C8C8;vertical-align: middle;">$employeeList.getDepartmentName()</td>
+                                    <td style="font-size: 14px;color: #000;padding-top: 11px;padding-bottom: 11px;border-bottom: 1px solid #C8C8C8;vertical-align: middle;">$employeeList.getDateOfJoiningNew()</td>
+                                    <td style="font-size: 14px;color: #000;padding-top: 11px;padding-bottom: 11px;border-bottom: 1px solid #C8C8C8;vertical-align: middle;">$employeeList.getProbationDateNew()</td>
+                                 </tr>
+                                  #end 
+                              </tbody></table>
+                            </td>
+                          </tr>
+<tr>
+                            <td width="100%" height="30" bgcolor="#ffffff">
+                            </td>
+                          </tr>
+<tr>
+                          <td align="center">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                              <tbody><tr>
+                                <td style="font-size: 16px;" align="center">
+                                  For detailed information please login to. 
+                                </td>
+                              </tr>
+								  <tr>
+                          <td height="10">
+                          </td>
+                        </tr>
+								  <tr>
+                                <td align="center">
+                                 <a href="https://www.fabhr.in" target="_blank" style="color: #143697; font-weight: bold;font-size: 22px;">www.fabhr.in</a>
+                                </td>
+                              </tr>
+                            </tbody></table>
+                          </td>
+                        </tr>
+                
+                                         
+                          
+                        </tbody></table>
+                          </td>
+              </tr>
+                          <tr>
+                            <td width="100%" height="30" bgcolor="#ffffff">
+                            </td>
+                          </tr>
+                        </tbody></table>
+                      </td>
+                    </tr>
+                  </tbody></table>
+<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tbody><tr>
+                      <td width="100%" height="30">
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+    </div>

@@ -1,0 +1,30 @@
+----------bharat patel -----24-06-2020----------
+
+
+ 
+ INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES (NULL, '42', 'New', 'SN', 'A'), (NULL, '42', 'Existing', 'SE', 'A')(NULL, '42', 'Additional', 'SA', 'A'),;
+ 
+ INSERT INTO `DrowpdownHd` (`drowpdownId`, `drowpdownName`, `companyId`, `groupId`, `allowModi`, `userId`, `userIdUpdate`, `dateUpdate`) 
+ VALUES (NULL, 'positionLavel', '1', NULL, 'N', '1', NULL, '2020-06-23 00:00:00');
+ 
+ INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES (NULL, '43', 'Entry Level', 'EN', 'A'), (NULL, '43', 'Experienced Level', 'EX', 'A');
+ 
+ INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES (NULL, '43', 'Middle-Level', 'MI', 'A'), (NULL, '43', 'Top-Level', 'TO', 'A')
+ 
+  UPDATE `DrowpdownHd` SET `userIdUpdate` = '1' WHERE `DrowpdownHd`.`drowpdownId` = 43;
+ 
+
+------------------------Mayuri ----------25-06-2020-------------------------
+
+   ALTER TABLE `InterviewScheduler` ADD INDEX( `positionId`);
+
+ALTER TABLE `InterviewScheduler` CHANGE `sourceOfPositionId` `sourceOfProfile` VARCHAR(2) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+INSERT INTO `DrowpdownHd` (`drowpdownId`, `drowpdownName`, `companyId`, `groupId`, `allowModi`, `userId`, `userIdUpdate`, `dateUpdate`) VALUES (NULL, 'sourceOfProfile', '1', NULL, 'N', '1', '1', '2019-08-13 00:00:00');
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES (NULL, '41', 'Naukri.com', 'NC', 'A');
+
+ALTER TABLE `InterviewScheduler` ADD `activeStatus` VARCHAR(50) NULL DEFAULT NULL AFTER `dateUpdated`, ADD `declineRemark` VARCHAR(300) NULL DEFAULT NULL AFTER `activeStatus`;
+
+
+
+----------------------------------------------------------------------------

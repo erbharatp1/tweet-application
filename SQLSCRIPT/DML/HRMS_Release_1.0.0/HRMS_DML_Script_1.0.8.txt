@@ -1,0 +1,130 @@
+----------------------------------- vipul ------------------------------------------------------
+
+
+INSERT INTO `MenuMaster` (`menuId`, `menuName`, `companyId`) VALUES
+(10, 'Recruitment', 1);
+
+
+
+
+ INSERT INTO `SubMenuMaster` (`subMenuId`, `menuId`, `submenuName`, `status`, `userId`, `dateCreated`, `userIdUpdate`, `dateUpdate`) 
+VALUES
+(58, 10, 'Position Tracker', 'AC', 1, '2020-07-09', 1, '2020-07-09'),
+
+(59, 10, 'Position', 'AC', 1, '2020-07-09', 1, '2020-07-09'),
+
+(60, 10, 'Recruiter Backlogs', 'AC', 1, '2020-07-09', 1, '2020-07-09'),
+
+(61, 10, 'Approvals', 'AC', 1, '2020-07-09', 1, '2020-07-09'),
+
+(62, 10, 'ATS', 'AC', 1, '2020-07-09', 1, '2020-07-09'),
+
+(63, 10, 'Settings', 'AC', 1, '2020-07-09', 1, '2020-07-09');
+
+
+
+
+
+INSERT INTO `SubmenuActionMaster` (`submenuActionId`, `submenuId`, `urlPath`, `title`, `uniqueCode`, `status`, `description`, `userId`, `dateCreated`) VALUES
+(290, 59, 'http://localhost:8080/hrmsApi/position/getAllPositionDataNext', 'View all position details', 'ViewAllPositionDetails002', 'AC', NULL, 1, '2020-07-10'),
+(291, 59, 'http://localhost:8080/hrmsApi/position/requestForExtraBudget', 'Request for extra budget', 'RequestForExtraBudget001', 'AC', NULL, 1, '2020-07-10'),
+(292, 59, 'http://localhost:8080/hrmsApi/position/findPositionById', 'View one position details', 'ViewOnePositionDetails002', 'AC', NULL, 1, '2020-07-10'),
+(293, 59, 'http://localhost:8080/hrmsApi/position/savePosition', 'Create position', 'CreatePosition001', 'AC', NULL, 1, '2020-07-10'),
+(294, 59, 'http://localhost:8080/hrmsApi/position/savePosition', 'Edit position', 'EditPosition001', 'AC', NULL, 1, '2020-07-10'),
+(295, 58, 'http://localhost:8080/hrmsApi/positionAllocation/getAssignedPositions', 'View all position Tracker', 'ViewAllPositionTrackerDetails002', 'AC', NULL, 1, '2020-07-10'),
+(296, 58, 'http://localhost:8080/hrmsApi/positionAllocation/savePositionAllocation', 'Assign to recruiter', 'AssignToRecruiter001', 'AC', NULL, 1, '2020-07-10'),
+(297, 58, 'http://localhost:8080/hrmsApi/positionAllocation/savePositionAllocation', 'Edit Assign job', 'EditAssignJob001', 'AC', NULL, 1, '2020-07-10'),
+(298, 60, 'http://localhost:8080/hrmsApi/positionAllocation/getAssignedPositions', 'View all recruiter backlogs', 'VIewAllRecruiterBacklog002', 'AC', NULL, 1, '2020-07-10'),
+(299, 60, 'http://localhost:8080/hrmsApi/interviewScheduler/findAllInterviewSchedulerDetails', 'View interview scheduler', 'ViewInterviewScheduler002', 'AC', NULL, 1, '2020-07-10'),
+(300, 60, 'http://localhost:8080/hrmsApi/interviewScheduler/saveInterviewScheduler', 'Schedule Interview', 'ScheduleInterview001', 'AC', NULL, 1, '2020-07-10'),
+(301, 60, 'http://localhost:8080/hrmsApi/assessment/findAllassessment', 'View all assessment', 'ViewAllAsssessment002', 'AC', NULL, 1, '2020-07-10'),
+(302, 60, 'http://localhost:8080/hrmsApi/assessment/findAssessmentDetail', 'View one assessment', 'ViewOneAssessment002', 'AC', NULL, 1, '2020-07-10'),
+(303, 60, 'http://localhost:8080/hrmsApi/assessmentReport/downloadPdf', 'Download assessment report', 'DownloadAssessmentReport006', 'AC', NULL, 1, '2020-07-10'),
+(304, 60, 'http://localhost:8080/hrmsApi/assessment/findAssessmentDetail', 'Assessment G-offer', 'ViewAssessmentG-offer002', 'AC', NULL, 1, '2020-07-10'),
+(305, 60, 'http://localhost:8080/hrmsApi/assessment/saveAssesmentDetailsFile', 'Fill assessment details', 'FillAssessmentDetails001', 'AC', NULL, 1, '2020-07-10'),
+(306, 61, 'http://localhost:8080/hrmsApi/position/findPositionListForSixMonths', 'View all Approvals', 'ViewAllApprovals002', 'AC', NULL, 1, '2020-07-10'),
+(307, 61, 'http://localhost:8080/hrmsApi/position/extraBudgetApprovalStatus', 'Extra budget approval', 'ExtraBudgetApproval001', 'AC', NULL, 1, '2020-07-10'),
+(308, 61, 'http://localhost:8080/hrmsApi/position/findPositionById', 'View one approval details', 'ViewOneApprovalDetails002', 'AC', NULL, 1, '2020-07-10'),
+(309, 61, 'http://localhost:8080/hrmsApi/position/updateByPosition', 'Position approval', 'PositionApproval001', 'AC', NULL, 1, '2020-07-10'),
+(310, 63, 'http://localhost:8080/hrmsApi/jobDescription/getJobDescriptionList', 'View all job description list', 'ViewAllJobDescriptionList002', 'AC', NULL, 1, '2020-07-10'),
+(311, 63, 'http://localhost:8080/hrmsApi/jobDescription/deleteJobDescription', 'Delete job description', 'DeleteJobDescription004', 'AC', NULL, 1, '2020-07-10'),
+(312, 63, 'http://localhost:8080/hrmsApi/jobDescription/uploadJobDescriptionWithFile', 'Add JD', 'AddJD001', 'AC', NULL, 1, '2020-07-10'),
+(313, 63, 'http://localhost:8080/hrmsApi/positionApproval/savePositionApproval', 'View all Position approval persion', 'ViewAllPositionApprovalPersion001', 'AC', NULL, 1, '2020-07-10'),
+(314, 63, 'http://localhost:8080/hrmsApi/positionApproval/getAllPositionApprovals', 'Add Position approval persion', 'AddPositionApprovalPersion001', 'AC', NULL, 1, '2020-07-10'),
+(315, 63, 'http://localhost:8080/hrmsApi/candidateSelectionRule/getAllCandidateSelectionRule', 'View all candidate selection rule', 'ViewAllCandidateSelectionRule002', 'AC', NULL, 1, '2020-07-10'),
+(316, 63, 'http://localhost:8080/hrmsApi/candidateSelectionRule/updateCandidateSelectionRule', 'Update candidate selection rule', 'UpdateCandidateSelectionRule003', 'AC', NULL, 1, '2020-07-10'),
+(317, 63, 'http://localhost:8080/hrmsApi/questionTemplates/fetchQuestionList', 'View all question list', 'ViewAllQuestionList002', 'AC', NULL, 1, '2020-07-10'),
+(318, 63, 'http://localhost:8080/hrmsApi/questionTemplates/saveQuestionTemplates', 'Add question', 'AddQuestion001', 'AC', NULL, 1, '2020-07-10'),
+(319, 63, 'http://localhost:8080/hrmsApi/questionTemplates/findQuestionTampById', 'View question edit', 'ViewQuestionEdit002', 'AC', NULL, 1, '2020-07-10'),
+(320, 63, 'http://localhost:8080/hrmsApi/questionTemplates/saveQuestionTemplates', 'Save question edit', 'SaveQuestionEdit001', 'AC', NULL, 1, '2020-07-10'),
+(321, 63, 'http://localhost:8080/hrmsApi/questionTemplates/delete', 'Delete question', 'DeleteQuestion004', 'AC', NULL, 1, '2020-07-10'),
+(322, 50, '', 'View recruitement Menu', 'ViewRecruitementMenu002', 'AC', NULL, 1, '2020-07-13');
+
+
+
+
+
+
+INSERT INTO `RoleSubmenuActionMaster` (`roleSubmenuActionId`, `roleId`, `status`, `submenuActionId`) VALUES
+(1248, 4, 'AC', 300),
+(1236, 4, 'AC', 290),
+(1237, 4, 'AC', 291),
+(1238, 4, 'AC', 292),
+(1239, 4, 'AC', 293),
+(1240, 4, 'AC', 294),
+(1241, 4, 'AC', 295),
+(1242, 4, 'AC', 290),
+(1243, 4, 'AC', 290),
+(1244, 4, 'AC', 296),
+(1245, 4, 'AC', 297),
+(1246, 4, 'AC', 298),
+(1247, 4, 'AC', 299),
+(1249, 4, 'AC', 301),
+(1251, 4, 'AC', 303),
+(1252, 4, 'AC', 304),
+(1253, 4, 'AC', 305),
+(1254, 4, 'AC', 306),
+(1255, 4, 'AC', 307),
+(1256, 4, 'AC', 308),
+(1257, 4, 'AC', 309),
+(1258, 4, 'AC', 310),
+(1259, 4, 'AC', 311),
+(1260, 4, 'AC', 312),
+(1235, 1, 'AC', 312),
+(1250, 1, 'AC', 302),
+(1223, 1, 'AC', 300),
+(1211, 1, 'AC', 290),
+(1212, 1, 'AC', 291),
+(1213, 1, 'AC', 292),
+(1214, 1, 'AC', 293),
+(1215, 1, 'AC', 294),
+(1216, 1, 'AC', 295),
+(1217, 1, 'AC', 290),
+(1218, 1, 'AC', 290),
+(1219, 1, 'AC', 296),
+(1220, 1, 'AC', 297),
+(1221, 1, 'AC', 298),
+(1222, 1, 'AC', 299),
+(1210, 1, 'AC', 290),
+(1224, 1, 'AC', 301),
+(1225, 1, 'AC', 302),
+(1226, 1, 'AC', 303),
+(1227, 1, 'AC', 304),
+(1228, 1, 'AC', 305),
+(1229, 1, 'AC', 306),
+(1230, 1, 'AC', 307),
+(1231, 1, 'AC', 308),
+(1232, 1, 'AC', 309),
+(1233, 1, 'AC', 310),
+(1234, 1, 'AC', 311);
+
+
+-----------------------------------------------------------------------------------------------------
+---------------------mayuri -----18-07-2020-----------------------------------------------
+ALTER TABLE `CandidateEvolution` CHANGE `interviewMode` `interviewMode` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+ALTER TABLE `CandidateEvolution` CHANGE `interviewDate` `interviewDate` DATE NULL;
+ALTER TABLE `CandidateEvolution` CHANGE `interviewTime` `interviewTime` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `CandidateEvolution` ADD `isInterviewSchedulesd` VARCHAR(5) NOT NULL AFTER `interviewDate`;
+ALTER TABLE `CandidateEvolution` CHANGE `isInterviewSchedulesd` `isInterviewScheduled` VARCHAR(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+------------------------------------END------------------------------------------

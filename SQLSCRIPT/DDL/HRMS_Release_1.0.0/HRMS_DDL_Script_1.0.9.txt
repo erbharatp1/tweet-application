@@ -1,0 +1,13 @@
+----------bharat---30-07------------------
+
+ALTER TABLE `Letter` ADD `gradeId` INT(11) NOT NULL AFTER `letterDecription`, ADD `enableGrade` VARCHAR(11) 
+NULL DEFAULT NULL AFTER `gradeId`;
+----------------------------------------------------------------------------------------------------
+
+------------------------------------Singya Bhalse- July-30--------------------------------------------------------
+ALTER TABLE `Separation`  ADD `isPositionClosed` VARCHAR(2) NULL DEFAULT NULL  AFTER `status`;
+------------------------------------------------------------------------------------------------------------------
+
+------------------------------------shubham yaduwanshi- August-12-2020--------------------------------------------------------
+ALTER TABLE `DeviceInfo` ADD `status` VARCHAR(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL AFTER `dateUpdate`;
+------------------------------------------------------------------------------------------------------------------

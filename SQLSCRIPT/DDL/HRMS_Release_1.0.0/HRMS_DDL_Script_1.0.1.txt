@@ -1,0 +1,691 @@
+
+--------------< Start   Neeraj   20-05-2020  >-----------------
+
+procedure 1.  pro_new_attendancelog_report
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_new_attendancelog_report`(IN `p_selected_date` VARCHAR(250), IN `p_employee_name` VARCHAR(250), IN `p_sorttype` VARCHAR(250), IN `p_activestatus` VARCHAR(250), IN `p_employee_code` VARCHAR(250), IN `p_offset` VARCHAR(127), IN `p_limit` VARCHAR(127), IN `p_active_value` VARCHAR(250), IN `p_company_id` VARCHAR(127), IN `p_dept_id` VARCHAR(127), IN `p_desg_id` VARCHAR(127), IN `p_title` VARCHAR(127))
+    NO SQL
+BEGIN
+    DECLARE v_offset int DEFAULT 0;
+    DECLARE v_limit int DEFAULT 0;
+    DECLARE v_sort varchar(50);
+    DECLARE v_value varchar(50);
+    set v_offset = CAST(p_offset AS UNSIGNED);
+    set v_limit  = CAST(p_limit AS UNSIGNED);
+    set v_value = CONCAT('e.',p_active_value);
+    set @v_sort = CONCAT(v_value,' ',p_sorttype);
+   
+ 
+    SET @@sql_mode = 'NO_ENGINE_SUBSTITUTION'; 
+    
+     CASE 
+      WHEN(   (p_selected_date!=null or p_selected_date!='') 
+          AND (p_employee_name=null or p_employee_name='')  
+          AND (p_sorttype!=null or p_sorttype!='')  
+          AND (p_employee_code=null or p_employee_code='') 
+          AND (p_offset!=null OR p_offset!='')
+          AND (p_limit!=null OR p_limit!='') 
+          AND  (p_active_value=null or p_active_value='') 
+          AND (p_company_id!=null or p_company_id!='')  
+          AND  (p_dept_id=null or p_dept_id='')  
+          AND  (p_desg_id=null or p_desg_id='')
+          AND  (p_title=null or p_title='') 
+           
+         ) THEN
+
+select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId,
+ al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy ,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+       ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+ left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ WHERE e.activeStatus='AC' group by e.employeeId
+     limit  v_offset ,v_limit 
+  ; 
+  
+  
+    WHEN( (p_selected_date!=null or p_selected_date!='') 
+          AND (p_employee_name!=null or p_employee_name!='')  
+          AND (p_sorttype!=null or p_sorttype!='')  
+          AND (p_employee_code=null or p_employee_code='') 
+          AND (p_offset!=null OR p_offset!='')
+          AND (p_limit!=null OR p_limit!='') 
+          AND (p_active_value=null or p_active_value='')        
+          AND (p_company_id!=null or p_company_id!='')  
+          AND (p_dept_id=null or p_dept_id='')  
+          AND (p_desg_id=null or p_desg_id='')  
+          AND  (p_title=null or p_title='') 
+         
+         ) THEN
+  
+       
+  select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId,
+  al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+       left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.firstName LIKE concat(p_employee_name, '%') and e.activeStatus='AC'
+  group by e.employeeId
+  
+     limit  v_offset ,v_limit 
+   ; 
+   
+
+   
+    WHEN  (    (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code=null or p_employee_code='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND (p_active_value=null or p_active_value='')        
+           AND (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id!=null or p_dept_id!='')  
+           AND (p_desg_id=null or p_desg_id='')  
+           AND (p_title=null or p_title='') 
+         ) THEN
+  
+  
+  select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+        left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.departmentId=p_dept_id AND e.activeStatus='AC'
+    group by e.employeeId	
+	   limit  v_offset ,v_limit 
+   ; 
+   
+    WHEN( (p_selected_date!=null or p_selected_date!='')  
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code!=null or p_employee_code!='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND  (p_active_value=null or p_active_value='')        
+           AND  (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id=null or p_dept_id='')  
+           AND (p_desg_id=null or p_desg_id='')  
+           AND  (p_title=null or p_title='') 
+         ) THEN
+      
+	
+	select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy ,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+         left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.employeeCode=p_employee_code AND e.activeStatus='AC'
+   group by e.employeeId
+   
+    limit  v_offset ,v_limit
+   
+   ; 
+  
+   
+   
+   WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype!=null or p_sorttype!='') AND 
+           (p_employee_code=null or p_employee_code='') 
+           and (p_offset!=null OR p_offset!='')
+           and (p_limit!=null OR p_limit!='') 
+           and  (p_active_value=null or p_active_value='')        
+         and  (p_company_id!=null or p_company_id!='')  
+           and (p_dept_id=null or p_dept_id='')  
+           and (p_desg_id!=null or p_desg_id!='')  
+           AND (p_title=null or p_title='') 
+        
+         ) THEN
+         
+		 
+		 select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy ,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+         left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.designationId=p_desg_id   AND e.activeStatus='AC'
+  group by e.employeeId
+  
+  
+  limit  v_offset ,v_limit
+   ; 
+  
+  
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype!=null or p_sorttype!='') AND 
+           (p_employee_code=null or p_employee_code='') 
+           and (p_offset!=null OR p_offset!='')
+           and (p_limit!=null OR p_limit!='') 
+           and  (p_active_value=null or p_active_value='')        
+           and  (p_company_id!=null or p_company_id!='')  
+           and (p_dept_id!=null or p_dept_id!='')  
+           and (p_desg_id!=null or p_desg_id!='')  
+           AND (p_title=null or p_title='') 
+        
+         ) THEN
+         
+		 
+		 select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy ,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+         left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.designationId=p_desg_id  and e.departmentId  =p_dept_id AND e.activeStatus='AC'
+  group by e.employeeId
+  
+  limit  v_offset ,v_limit 
+  
+   ; 
+  
+  
+   WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype!=null or p_sorttype!='') AND 
+           (p_employee_code!=null or p_employee_code!='') 
+           and (p_offset!=null OR p_offset!='')
+           and (p_limit!=null OR p_limit!='') 
+           and  (p_active_value=null or p_active_value='')        
+           and  (p_company_id!=null or p_company_id!='')  
+           and (p_dept_id!=null or p_dept_id!='')  
+           and (p_desg_id!=null or p_desg_id!='')  
+           AND (p_title=null or p_title='') 
+        
+         ) THEN
+         
+  
+  select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	   WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	   
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+     
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+ 
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where e.designationId=p_desg_id  and e.departmentId  =p_dept_id and e.employeeCode=p_employee_code AND e.activeStatus='AC'
+  group by e.employeeId
+  
+   limit  v_offset ,v_limit
+   ; 
+   
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code!=null or p_employee_code!='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND  (p_active_value=null or p_active_value='')        
+           AND  (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id!=null or p_dept_id!='')  
+           AND (p_desg_id=null or p_desg_id='')  
+           AND (p_title=null or p_title='') 
+         ) THEN
+         
+		 
+		 select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where  e.departmentId  =p_dept_id and e.employeeCode=p_employee_code AND e.activeStatus='AC'
+ group by e.employeeId
+ 
+  limit  v_offset ,v_limit ; 
+   
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code!=null or p_employee_code!='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND  (p_active_value=null or p_active_value='')        
+           AND  (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id=null or p_dept_id='')  
+           AND (p_desg_id!=null or p_desg_id!='') 
+           AND (p_title=null or p_title='') 
+        
+         ) THEN
+         
+		 
+		 select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+      left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId=p_company_id
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+ where  e.designationId  =p_desg_id and e.employeeCode=p_employee_code AND e.activeStatus='AC'
+  group by e.employeeId
+  
+   limit  v_offset ,v_limit ; 
+ 
+    WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND  (p_employee_code=null or p_employee_code='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND  (p_active_value!=null or p_active_value!='')        
+           AND  (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id=null or p_dept_id='')  
+           AND (p_desg_id=null or p_desg_id='')
+           AND (p_title=null or p_title='')
+        
+         ) THEN
+        
+		
+		 SET @Query1 =CONCAT(" select  e.firstName,e.lastName, dg.designationName, al.inTime  ,al.outTime , al.location,al.mode,al.delayedTime,e.employeeId, al.status, al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy,
+(CASE when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId  ",p_selected_date," ))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' ,
+    ( (SELECT fun_count_present_leave_absent	(p_company_id,'P',p_selected_date))) as presentCount,
+     ( (SELECT fun_count_present_leave_absent	(p_company_id,'L',p_selected_date))) as leaveCount,
+      ( (SELECT fun_count_present_leave_absent	(p_company_id,'A',p_selected_date))) as absentCount
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =",p_selected_date, " and al.companyId= " ,p_company_id,
+               "  left OUTER join TMSLeaveEntriesDatewise tle on tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=" ,p_company_id, " and tle.leaveDate=" ,p_selected_date,
+     "  left OUTER join Department dept  on  dept.departmentId= e.departmentId  and dept.companyId= ",p_company_id,
+    "  left OUTER join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId= ",p_company_id,
+     " left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId= ",p_company_id, " WHERE e.activeStatus='AC'  order by ",@v_sort," limit ",v_offset,',',v_limit);
+
+ PREPARE stmt3 FROM @Query1;
+ EXECUTE stmt3;
+ DEALLOCATE PREPARE stmt3
+ ; 
+  WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code=null or p_employee_code='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND (p_active_value=null or p_active_value='')        
+           AND (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id=null or p_dept_id='')  
+           AND (p_desg_id=null or p_desg_id='') 
+           AND (p_title!=null or p_title!='') 
+        
+         ) THEN
+		 
+		  if(p_title='P') then
+		 select e.firstName,e.lastName, dg.designationName, al.inTime ,al.outTime, al.location,al.mode,al.delayedTime,e.employeeId, al.status
+,(case when al.status='p' THEN
+  'Present'
+  when al.status='HD' THEN
+  'Half Day'
+  end) as 'leave status' , al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy from AttendanceLogs al 
+join Employee e on e.employeeId=al.employeeId 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+WHERE al.attendanceDate =p_selected_date and al.companyId=p_company_id and  al.status='HD' or al.status='P'
+ limit  v_offset ,v_limit;
+  ELSEIF(p_title='A') THEN
+  
+  SELECT e.firstName,e.lastName, dg.designationName ,"NA" as "inTime" ,"NA" as "outTime", "NA" as "location","NA" as "mode","NA" as "delayedTime" ,e.employeeId, "NA" as "status"
+,'Absent' as 'leave status',"NA" as attendanceDate,e.employeeCode,dept.departmentName,"NA" as reportedLateBy from  Employee e 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+WHERE  e.employeeId and e.companyId=p_company_id NOT IN (SELECT al.employeeId FROM AttendanceLogs al where al.attendanceDate=p_selected_date and al.companyId=p_company_id)
+
+ limit  v_offset ,v_limit;
+  end if;
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code=null or p_employee_code='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND (p_active_value=null or p_active_value='')        
+           AND (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id!=null or p_dept_id!='')  
+           AND (p_desg_id=null or p_desg_id='') 
+           AND (p_title!=null or p_title!='') 
+        
+         ) THEN
+         if(p_title='P') then
+		 
+		 select e.firstName,e.lastName, dg.designationName, al.inTime ,al.outTime, al.location,al.mode,al.delayedTime,e.employeeId, al.status
+,(case when al.status='p' THEN
+  'Present'
+  when al.status='HD' THEN
+  'Half Day'
+   end  ) as 'leave status' , al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy ,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy from AttendanceLogs al 
+join Employee e on e.employeeId=al.employeeId 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+WHERE al.attendanceDate =p_selected_date and al.companyId=p_company_id and  al.status='HD' or al.status='P' and e.departmentId=p_dept_id
+ limit  v_offset ,v_limit;
+  ELSEIF(p_title='A') THEN
+  
+    SELECT e.firstName,e.lastName, dg.designationName ,"NA" as "inTime" ,"NA" as "outTime", "NA" as "location","NA" as "mode","NA" as "delayedTime" ,e.employeeId, "NA" as "status"
+,'Absent' as 'leave status' ,"NA" as attendanceDate,e.employeeCode,dept.departmentName,"NA" as reportedLateBy ,"NA" as leftEarlyBy FROM Employee e 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+WHERE  e.employeeId  NOT IN (SELECT al.employeeId FROM AttendanceLogs al where al.attendanceDate=p_selected_date and al.companyId=p_company_id) and e.companyId=p_company_id and e.departmentId=p_dept_id AND e.activeStatus='AC'
+  
+   limit  v_offset ,v_limit;
+  
+  end if;
+
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') 
+           AND (p_employee_name=null or p_employee_name='')  
+           AND (p_sorttype!=null or p_sorttype!='')  
+           AND (p_employee_code=null or p_employee_code='') 
+           AND (p_offset!=null OR p_offset!='')
+           AND (p_limit!=null OR p_limit!='') 
+           AND (p_active_value=null or p_active_value='')        
+           AND (p_company_id!=null or p_company_id!='')  
+           AND (p_dept_id!=null or p_dept_id!='')  
+           AND (p_desg_id!=null or p_desg_id!='') 
+           AND (p_title!=null or p_title!='') 
+        
+         ) THEN
+         if(p_title='P') then
+		 
+		 
+		 select e.firstName,e.lastName, dg.designationName, al.inTime    ,al.outTime, al.location,al.mode,al.delayedTime,e.employeeId, al.status
+,(case when al.status='p' THEN
+  'Present'
+  when al.status='HD' THEN
+  'Half Day'
+   end  ) as 'leave status' , al.attendanceDate,e.employeeCode,dept.departmentName,concat(TIMEDIFF(cast(al.inTime as time) ,sh.graceTime),'') as reportedLateBy,concat(TIMEDIFF(cast(al.outTime as time) ,sh.toTime),'') as leftEarlyBy from AttendanceLogs al 
+join Employee e on e.employeeId=al.employeeId 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+join TMSShift sh on al.employeeCode = e.employeeCode and sh.shiftId=e.shiftId and sh.companyId=p_company_id
+WHERE al.attendanceDate =p_selected_date and al.companyId=p_company_id and  al.status='HD' or al.status='P' and e.departmentId=p_dept_id and e.designationId=p_desg_id
+
+limit  v_offset ,v_limit;
+  ELSEIF(p_title='A') THEN
+  
+  SELECT e.firstName,e.lastName, dg.designationName ,"NA" as "inTime" ,"NA" as "outTime", "NA" as "location","NA" as "mode","NA" as "delayedTime" ,e.employeeId, "NA" as "status"
+,'Absent' as 'leave status' ,"NA" as attendanceDate,e.employeeCode,dept.departmentName,"NA" as reportedLateBy ,"NA" as leftEarlyBy FROM Employee e 
+join Designation dg on dg.designationId=e.designationId
+join Department dept  on  dept.departmentId= e.departmentId  
+WHERE  e.employeeId  NOT IN (SELECT al.employeeId FROM AttendanceLogs al where al.attendanceDate=p_selected_date and al.companyId=p_company_id) and e.companyId=p_company_id and e.departmentId=p_dept_id and e.designationId=p_desg_id AND e.activeStatus='AC'
+
+ limit  v_offset ,v_limit;
+  
+  end if;
+
+     
+   
+   
+   else 
+   
+     SELECT 1;
+    
+END CASE;
+
+end$$
+DELIMITER ;
+
+
+-----------------------
+FUNCTION  1. fun_count_present_leave_absent
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `fun_count_present_leave_absent`(`p_comp_id` INT(127), `p_flag` VARCHAR(255), `p_date` VARCHAR(255)) RETURNS int(10) unsigned
+    NO SQL
+BEGIN
+
+
+DECLARE v_present_count INT(127) DEFAULT 0;
+DECLARE v_absent_count INT(127) DEFAULT 0;
+DECLARE v_leave_count INT(127) DEFAULT 0;
+DECLARE v_emp_count INT(127) DEFAULT 0;	
+    
+	case when p_flag='P' then
+SELECT count( DISTINCT al.employeeId) INTO v_present_count FROM AttendanceLogs al 
+where DATE(al.attendanceDate) = p_date and al.companyId=p_comp_id and ( al.status='P' or al.status = 'P/2') ;
+     return v_present_count;
+
+   when p_flag='L' then
+ SELECT   count( ld.leaveId) INTO v_leave_count FROM  TMSLeaveEntriesDatewise ld
+ 
+ where ld.leaveStatus='APR' and ld.leaveDate=p_date ;
+ 
+   return v_leave_count;
+     
+      when p_flag='A' then 
+   
+   SELECT count( DISTINCT al.employeeId) INTO v_present_count FROM AttendanceLogs al 
+where DATE(al.attendanceDate) = p_date and al.companyId=p_comp_id and ( al.status='P' or al.status = 'P/2') ;  
+ 
+ SELECT   count( ld.leaveId) INTO v_leave_count FROM  TMSLeaveEntriesDatewise ld
+ 
+ where ld.leaveStatus='APR' and ld.leaveDate=p_date ;
+                     
+      select COUNT(em.employeeId)
+	  INTO 	v_emp_count  from 
+      Employee em where 
+     em.activeStatus ='AC' and em.companyId=p_comp_id ;    
+    
+ 
+      
+      return v_emp_count-(v_leave_count +v_present_count);
+      
+         END CASE;
+
+   
+END$$
+DELIMITER ;
+
+--------------< END   Neeraj   20-05-2020  >-----------------
+
+
+--------------------------------------Mayuri ----21-05-2020-------------------------
+ALTER TABLE `HoldSalary` CHANGE `remark` `remark` VARCHAR(600) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+
+-----------------------------------------end-------------------------------
+
+--------------------------------------Mayuri ----22-05-2020-------------------------
+
+ALTER TABLE `OneTimeEarningDeduction` CHANGE `remarks` `remarks` VARCHAR(300) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+<<<<<<< HEAD
+-----------------------------------------end-------------------------------
+=======
+-----------------------------------Singya Bhalse- 21-May-2020----------------------------------------------------------
+DROP PROCEDURE `Pro_processMonth_by_reportPayout`;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Pro_processMonth_by_reportPayout`(IN `p_comp_id` INT) NOT DETERMINISTIC NO SQL SQL SECURITY DEFINER BEGIN
+
+
+    
+    DECLARE e_sqlstate 		VARCHAR(255); 
+    DECLARE e_error_no 		INT(127);
+    DECLARE e_error_message	TEXT;
+    DECLARE e_remark		TEXT;
+ 
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  	BEGIN
+		GET CURRENT DIAGNOSTICS CONDITION 1 e_sqlstate = RETURNED_SQLSTATE, e_error_no = MYSQL_ERRNO, e_error_message = MESSAGE_TEXT;
+        
+		SET	@p_process_status	=	1000;
+		SET	@p_process_message	=	'Error... please Contact Administrator';
+		SET	@p_process_remark	=  fun_set_exception_handling ( 2, 'Pro_fetch_process_month', e_sqlstate, e_error_no, e_error_message, e_remark);
+			
+	     END;
+      
+
+      
+ SET @@sql_mode = 'NO_ENGINE_SUBSTITUTION';
+       
+ 
+
+select DISTINCT rp.processMonth FROM ReportPayOut rp JOIN PayrollControl pc on pc.processMonth=rp.processMonth WHERE 
+companyId=p_comp_id group by rp.processMonth order by pc.controlId DESC LIMIT 12;
+  
+
+END
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+

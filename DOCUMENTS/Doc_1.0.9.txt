@@ -1,0 +1,6 @@
+===================================Singya Bhalse===============================================================================
+1. Bug #157: when we login with ess my team module is not working
+2. Bug #204: when i click on submit button then it will jump on income tax list
+3. Bug #233: Assessment: Default image of the employee is showing in list of assessment.
+4. #255 : User story #255: When employee left from Fabhr, recruitment system must ask for creating position for his replacement
+===============================================================================================================================
