@@ -1,0 +1,5 @@
+============================Singya Bhalse=================================================================
+ALTER TABLE `CandidateEvolution` ADD `dateUpdated` DATE NULL DEFAULT NULL AFTER `dateCreated`;
+ALTER TABLE `CandidateEvolution` ADD `filePath` VARCHAR(500) NULL DEFAULT NULL AFTER `fileName`;
+ALTER TABLE `CandidateEvolution` ADD `fileName` VARCHAR(300) NULL DEFAULT NULL AFTER `remark`;
+===========================================================================================================

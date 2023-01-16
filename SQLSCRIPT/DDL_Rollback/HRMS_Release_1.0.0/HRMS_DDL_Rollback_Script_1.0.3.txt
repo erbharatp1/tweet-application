@@ -1,0 +1,527 @@
+
+--------------< Start   Neeraj   30-05-2020  >-----------------
+
+procedure 1. pro_bulkattendance_view
+
+
+BEGIN
+             
+    SET @@sql_mode = 'NO_ENGINE_SUBSTITUTION'; 
+    
+     CASE 
+     
+   
+       WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value!=null or p_active_value!='')   
+           
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+    where  e.activeStatus=p_activestatus AND    al.status=p_active_value ORDER BY e.employeeCode ;
+	
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+     
+     WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value!=null or p_active_value!='')   
+            and  (p_desg_id!=null or p_desg_id!='')    
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND    al.status=p_active_value AND dg.designationId=p_desg_id ORDER BY e.employeeCode;
+	
+     
+     
+        
+      WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value!=null or p_active_value!='')   
+             and  (p_dept_id!=null or p_dept_id!='')  
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     
+      left OUTER join Department dp  on  dp.departmentId= e.departmentId  and dp.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND al.status=p_active_value   AND dp.departmentId=p_dept_id ORDER BY e.employeeCode;
+	
+
+     
+      WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value!=null or p_active_value!='')   
+            and  (p_desg_id!=null or p_desg_id!='')    
+             and  (p_dept_id!=null or p_dept_id!='')  
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join Department dp  on  dp.departmentId= e.departmentId  and dp.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND al.status=p_active_value   AND dg.designationId=p_desg_id AND dp.departmentId=p_dept_id ORDER BY e.employeeCode;
+	
+
+  
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value=null or p_active_value='')   
+            and  (p_desg_id!=null or p_desg_id!='')    
+             and  (p_dept_id!=null or p_dept_id!='')  
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+      left OUTER join Department dp  on  dp.departmentId= e.departmentId  and dp.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND (al.status='P' and al.status='P/2') OR al.status  is null   AND dg.designationId=p_desg_id AND dp.departmentId=p_dept_id ORDER BY e.employeeCode;
+	
+     
+     
+  
+  
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value=null or p_active_value='')   
+          
+             and  (p_dept_id!=null or p_dept_id!='')  
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+  
+      left OUTER join Department dp  on  dp.departmentId= e.departmentId  and dp.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND (al.status='P' and al.status='P/2') OR al.status  is null   AND   dp.departmentId=p_dept_id ORDER BY e.employeeCode;
+	
+  
+  
+  
+   WHEN( (p_selected_date!=null or p_selected_date!='') AND
+               (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+             and  (p_active_value=null or p_active_value='')   
+          
+             and  (p_desg_id!=null or p_desg_id!='')  
+         ) THEN
+     
+     
+     
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+   WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+  
+      left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.activeStatus=p_activestatus AND (al.status='P' and al.status='P/2') OR al.status  is null   AND   dg.designationId=p_desg_id;
+	
+  
+  
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code=null or p_employee_code='') 
+                          and  (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+          and  (p_dept_id=null or p_dept_id='')  
+          and  (p_desg_id=null or p_desg_id='')    
+         ) THEN
+  
+   select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,  (CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'H'
+      WHEN(tle.halfFullDay='H') Then 'L'
+      when(tle.halfFullDay='F') THEN 'L'
+	  WHEN( al.status='P') Then 'P'
+       WHEN( al.status='P/2') Then 'P/2'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'W'
+        WHEN( al.status='A') Then 'A'
+      else 
+     'A'  END )  as status,al.totalTime,
+ (CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+	  WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+      left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id  and e.activeStatus='AC'
+   WHERE   e.activeStatus='AC' ORDER BY e.firstName ASC
+   ; 
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code=null or p_employee_code='') 
+                           and  (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id!=null or p_company_id!='')  
+          and  (p_dept_id!=null or p_dept_id!='')  
+          and  (p_desg_id=null or p_desg_id='')    
+         ) THEN
+  
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=1 and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.departmentId  =p_dept_id  and e.activeStatus=p_activestatus
+  
+   ; 
+   
+      WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code=null or p_employee_code='') 
+                      and  (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id!=null or p_company_id!='')  
+          and  (p_dept_id=null or p_dept_id='')  
+          and  (p_desg_id!=null or p_desg_id!='')    
+         ) THEN
+  
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+      left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=1 and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.designationId  =p_desg_id and e.activeStatus=p_activestatus
+   ; 
+  
+     WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code=null or p_employee_code='') 
+                      and  (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id!=null or p_company_id!='')  
+          and  (p_dept_id!=null or p_dept_id!='')  
+          and  (p_desg_id!=null or p_desg_id!='')    
+         ) THEN
+  
+    select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+      left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.designationId  =p_desg_id and e.departmentId=p_dept_id
+    and e.activeStatus=p_activestatus
+   ;
+   
+     WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_employee_name!=null or p_employee_name!='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code=null or p_employee_code='') 
+                          and  (p_activestatus!=null or p_activestatus!='')   
+            and (p_company_id		!=null or p_company_id!='')  
+          and  (p_dept_id=null or p_dept_id='')  
+          and  (p_desg_id=null or p_desg_id='')    
+         ) THEN
+  
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'H'
+      WHEN(tle.halfFullDay='H') Then 'L'
+      when(tle.halfFullDay='F') THEN 'L'
+	  WHEN( al.status='P') Then 'P'
+       WHEN( al.status='P/2') Then 'P/2'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'W'
+        WHEN( al.status='A') Then 'A'
+      else 
+     'A'  END )  as status,al.totalTime,
+ (CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      WHEN( al.status='P/2') Then 'Half Day Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' 
+	 
+	 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+      left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id 
+       where e.firstName LIKE concat(p_employee_name, '%') and  
+     e.activeStatus=p_activestatus
+   
+  
+   ; 
+   
+   
+   
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+          (p_activestatus!=null or p_activestatus!='')   and
+             (p_company_id!=null or p_company_id!='') and 
+         
+                   (p_employee_name=null or p_employee_name='')  AND
+           (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code!=null or p_employee_code!='') and
+                            
+            (p_dept_id!=null or p_dept_id!='')  
+          and  (p_desg_id=null or p_desg_id='')    
+         ) THEN
+  
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status'  
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+    left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.departmentId  =p_dept_id  and  e.activeStatus=p_activestatus and e.employeeCode=p_employee_code
+   ; 
+   
+   
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+              (p_activestatus!=null or p_activestatus!='')   and
+             (p_company_id!=null or p_company_id!='')  AND
+         
+        
+           (p_employee_code!=null or p_employee_code!='') and
+                          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+            (p_dept_id=null or p_dept_id='') and 
+            (p_desg_id=null or p_desg_id='')    
+         ) THEN
+  
+      select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+       left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where   e.activeStatus=p_activestatus and e.employeeCode=p_employee_code
+   ; 
+   
+   
+    WHEN( (p_selected_date!=null or p_selected_date!='') AND
+            (p_activestatus!=null or p_activestatus!='')  and 
+             (p_company_id!=null or p_company_id!='')  AND
+         
+         (p_employee_code!=null or p_employee_code!='') and
+             (p_desg_id!=null or p_desg_id!='') and
+         
+          (p_employee_name=null or p_employee_name='')  AND
+          (p_sorttype=null or p_sorttype='') AND 
+                             (p_dept_id=null or p_dept_id='')  
+             
+         ) THEN
+  
+     select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where  e.activeStatus=p_activestatus and e.designationId=p_desg_id AND e.employeeCode=p_employee_code
+   ; 
+   WHEN( (p_selected_date!=null or p_selected_date!='') AND
+        (p_activestatus!=null or p_activestatus!='')   AND
+             (p_company_id!=null or p_company_id!='')  AND
+        
+          (p_sorttype=null or p_sorttype='') AND 
+           (p_employee_code!=null or p_employee_code!='') AND
+                  (p_employee_name=null or p_employee_name='')  AND
+
+                             (p_dept_id!=null or p_dept_id!='')  
+          and  (p_desg_id!=null or p_desg_id!='')    
+         ) THEN
+  
+   select e.employeeId,CONCAT(UPPER(SUBSTRING(e.firstName ,1,1)),LOWER(SUBSTRING(e.firstName ,2))) as 'firstName', CONCAT(UPPER(SUBSTRING(e.lastName ,1,1)),LOWER(SUBSTRING(e.lastName ,2))) as 'lastName',al.attendanceLogId,al.attendanceDate,e.employeeCode,e.companyId,al.inTime,al.outTime,al.inDeviceId,al.outDeviceId,al.location,al.mode,al.createdBy,al.createdDate,al.updatedBy,al.delayedTime,al.inout,al.status,al.totalTime,
+(CASE
+ when((select tl.holidayId FROM TMSHolidays tl  WHERE (p_selected_date >=tl.fromDate) AND (p_selected_date<=tl.toDate)>0)) THEN
+      'Holiday'
+      WHEN(tle.halfFullDay='H') Then 'Half Day Leave'
+      when(tle.halfFullDay='F') THEN 'Full Day Leave'
+	  WHEN( al.status='P') Then 'Present'
+      when((SELECT fun_check_patternIdDays_bydate(e.patternId,p_selected_date))=1)  then 'Week-Off'
+      else 
+     'Absent'  END )  as 'leave status' 
+     from Employee e
+     left OUTER join AttendanceLogs al on al.employeeId=e.employeeId  and al.attendanceDate =p_selected_date and al.companyId=p_company_id
+     left OUTER join TMSLeaveEntriesDatewise tle on  tle.employeeId=e.employeeId and tle.leaveStatus='APR' and tle.companyId=p_company_id and tle.leaveDate=p_selected_date
+     left OUTER join Designation dg  on  dg.designationId= e.designationId  and dg.companyId=p_company_id
+    where   e.activeStatus=p_activestatus and e.designationId=p_desg_id AND e.departmentId=p_dept_id   AND e.employeeCode=p_employee_code
+   ; 
+  else 
+     SELECT 1;
+END CASE;
+
+end
+
+--------------< END   Neeraj   30-05-2020  >-----------------
+

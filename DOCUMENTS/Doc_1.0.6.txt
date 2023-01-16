@@ -1,0 +1,18 @@
+================================Singya Bhalse-26-June-2020=======================================
+User story #67: Fill Assessment Form.
+User story #68: View Assessment Report Card.
+
+bulk leave testing issue
+
+1. when we select employee then leave type/full leave dropdown is showing blank.
+select option is not showing in both drop down.
+2. import excel sample option not there . 
+3. in calander current day is not showing . 
+4. remark should be required and medatory
+
+Recruitment issue
+
+5. View reportcard-- download file name not correct.
+6. Latest record always be on top of list.
+7. Candidate status must be full value in view reportcard.
+===============================================================================================

@@ -1,0 +1,65 @@
+--------------------------mayuri------------27-07-2020-------------ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `BodyValue` `bodyValue` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `GreetingFlag` `greetingFlag` VARCHAR(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `positionTitle` VARCHAR(5) NULL DEFAULT NULL AFTER `companyId`, ADD `positionCode` VARCHAR(5) NULL DEFAULT NULL AFTER `positionTitle`, ADD `interviewMode` VARCHAR(5) NULL DEFAULT NULL AFTER `positionCode`, ADD `interviewDateAndTime` VARCHAR(5) NULL DEFAULT NULL AFTER `interviewMode`, ADD `hiringSpoc` VARCHAR(5) NULL DEFAULT NULL AFTER `interviewDateAndTime`;
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `templateType` VARCHAR(50) NULL DEFAULT NULL AFTER `hiringSpoc`;
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `greetingType` VARCHAR(50) NULL DEFAULT NULL AFTER `templateType`;
+
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `templateType` `templateFlag` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `letterDescription` VARCHAR(500) NULL DEFAULT NULL AFTER `greetingType`;
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `letterDescription` `letterDescription` VARCHAR(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `offeredCTC` VARCHAR(5) NULL DEFAULT NULL AFTER `greetingType`, ADD `reportingTime` VARCHAR(5) NULL DEFAULT NULL AFTER `offeredCTC`;
+
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `bodyValue` `bodyValue` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `footerValue` `footerValue` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `CandidateLetterTemplateMaster` CHANGE `letterDescription` `letterDescription` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+-------------------------------end----------------------------------------
+
+
+----------bharat---30-07------------------
+
+INSERT INTO `DrowpdownHd` (`drowpdownId`, `drowpdownName`, `companyId`, `groupId`, `allowModi`, `userId`, `userIdUpdate`, `dateUpdate`) VALUES 
+(NULL, 'letterType', '1', NULL, 'N', '1', 1, ''2020-07-28 00:00:00'');
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES 
+(NULL, '44', 'Appointment Letter', 'AL', 'A');
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES
+ (NULL, '44', 'Experience Letter', 'EL', 'A');
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES 
+(NULL, '44', 'Appraisal Letter', 'AP', 'A');
+
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES
+ (NULL, '44', 'Warning letter', 'WL', 'A');
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`)
+ VALUES (NULL, '44', 'Appreciation Letter', 'RP', 'A');
+
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`)
+ VALUES (NULL, '44', 'Absconded Letter', 'AB', 'A');
+
+
+INSERT INTO `ApprovalHierarchyMaster` (`approvalHierarchyMasterId`, `letterId`, `activeStatus`, `userId`, `companyId`, `dateCreated`, `dateUpdate`, `userIdUpdate`) VALUES 
+(NULL, '47', 'DE', '1', '1', '2020-07-30', NULL, NULL);
+
+INSERT INTO `ApprovalHierarchyMaster` (`approvalHierarchyMasterId`, `letterId`, `activeStatus`, `userId`, `companyId`, `dateCreated`, `dateUpdate`, `userIdUpdate`) VALUES 
+(NULL, '48', 'DE', '1', '1', '2020-07-30', NULL, NULL);
+
+UPDATE `Letter` SET `enableGrade` = 'N'
+
+
+
+-------------------------------mayuri--30-07-------------------------
+
+ALTER TABLE `CandidateLetterTemplateMaster` ADD `jobDescription` VARCHAR(5) NULL DEFAULT NULL AFTER `reportingTime`;
+
+--------------------------------------------------------------------------------

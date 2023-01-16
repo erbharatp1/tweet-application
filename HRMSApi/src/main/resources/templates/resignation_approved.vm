@@ -1,0 +1,135 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <td style="background-color:#fafbfc"><center bgcolor="#fafbfc" style="width:100%;background-color:#fafbfc">
+          <div style="max-width:620px;font-size:0;margin:0 auto">
+            <div style="font-size:1px;line-height:1px;display:none!important"> One more step to get started </div>
+            <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td><table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="width:7px;font-size:1px" bgcolor="#fafbfc">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f5f6f7">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f0f2f3">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#edeef1">&nbsp;</td>
+                          <td bgcolor=""><table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+                              <tbody>
+                                <tr>
+                                  <td style="text-align:center;padding:0"><div style="display:inline-block;width:100%;max-width:620px">
+                                      <table style="font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:14px;line-height:24px;color:#525c65;text-align:left;width:100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                          <tr>
+                                            <td style="padding-bottom:14px;padding-top:14px;background:#fdfdfd" align="center"><img src="${companyLogoPath}"></td>
+                                          </tr>
+                                           <tr><td style="width:540px;background:#fff;margin:0;padding:19px;border-top:3px solid #0570d4;">
+											<table style="width:540px;" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+      <tbody><tr>
+        <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;" align="center">
+          
+                <table style="max-width:100%; background-color: #ffffff;border: 1px solid #808dd3;" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                  <tbody><tr>
+                          <td style="display: none; mso-hide: all;">
+                            <a href="https://www.fabhr.in" target="_blank"><img src="https://i.ibb.co/SvNCy8F/logo.png" style="margin: 0 auto;" width="100%" height="auto"> </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td height="35">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color: #1a2e3b; font-family: 'helvetica neue', helvetica, arial, sans-serif; font-size: 22px; line-height: 22px; text-align: center; font-weight: bold;  ">
+                            Resignation Request
+                          </td>
+                        </tr>
+                        <tr>
+                          <td height="15">
+                          </td>
+                        </tr>
+                        <tr>
+                         <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 24px; color: #707dc6; max-width: 600px;/*! padding-left:160px; *//*! padding-right:160px; */font-weight: bold;" align="center">
+                            <strong>Hi ${firstName} ${lastName},</strong>
+                          </td>
+                        </tr>
+							<tr>
+                          <td height="8">
+                          </td>
+                        </tr>
+							<tr>
+                          <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px; line-height: 24px; color: #1a2e3b; " align="center">
+                          your resignation has been  ${status}.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px; line-height: 24px; color: #1a2e3b; " align="center">
+                            Date of Exit: ${exitDate} 
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td height="15">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                              <tbody><tr>
+                                <td align="center">
+                                  For detailed information please login to 
+                                </td>
+                              </tr>
+								  <tr>
+                          <td height="15">
+                          </td>
+                        </tr>
+								  <tr>
+                                <td align="center">
+                                 <a href="https://www.fabhr.in" target="_blank" style="color: #303c7d; font-weight: bold">www.fabhr.in</a>
+                                </td>
+                              </tr>
+                                <tr>
+                          <td width="100%" height="30" bgcolor="#ffffff">
+                          </td>
+                        </tr>
+                            </tbody></table>
+                          </td>
+                        </tr>
+                        </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+										   </td>
+                                        </tr></tbody>
+                                      </table>
+                                    </div></td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e0e2e5">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e0e2e4">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e8ebed">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#f1f3f6">&nbsp;</td>
+                                </tr>
+                              </tbody>
+                            </table></td>
+                          <td style="width:1px;font-size:1px" bgcolor="#edeef1">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f0f2f3">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f5f6f7">&nbsp;</td>
+                          <td style="width:7px;font-size:1px" bgcolor="#fafbfc">&nbsp;</td>
+                        </tr>
+                      </tbody>
+                    </table></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </center></td>
+    </tr>
+  </tbody>
+</table>

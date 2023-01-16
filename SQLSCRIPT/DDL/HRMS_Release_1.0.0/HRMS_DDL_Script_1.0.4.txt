@@ -1,0 +1,73 @@
+============Bhaart Patel  09-06-2020===========================
+
+CREATE TABLE `QuestionTamplates` (
+  `questionTamplateId` int(11) NOT NULL,
+  `questionDescription` varchar(250) DEFAULT NULL,
+  `desirableAnswer` text,
+  `status` text,
+  `userId` int(11) NOT NULL,
+  `companyId` int(11) NOT NULL,
+  `dateCreated` date DEFAULT NULL,
+  `userIdUpdate` int(11) DEFAULT NULL,
+  `dateUpdate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `QuestionTamplatesOptions` (
+  `optionId` int(11) NOT NULL,
+  `questionTamplateId` int(11) NOT NULL,
+  `status` text,
+  `userId` int(11) NOT NULL,
+  `companyId` int(11) DEFAULT NULL,
+  `dateCreated` date DEFAULT NULL,
+  `userIdUpdate` int(11) DEFAULT NULL,
+  `dateUpdate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `QuestionTamplates`
+  ADD PRIMARY KEY (`questionTamplateId`);
+
+ 
+ALTER TABLE `QuestionTamplatesOptions`
+  ADD PRIMARY KEY (`optionId`);
+
+
+ 
+ALTER TABLE `QuestionTamplates`
+  MODIFY `questionTamplateId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+ 
+ALTER TABLE `QuestionTamplatesOptions`
+  MODIFY `optionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+
+
+ALTER TABLE `PayStructureHd` CHANGE `netPay` `netPay` DECIMAL(12,2) NULL DEFAULT NULL;
+
+ALTER TABLE `PayStructureHd` CHANGE `ctc` `ctc` DECIMAL(12,2) NULL DEFAULT NULL;
+
+ALTER TABLE `PositionInterviewlevelXRef` CHANGE `userIdUpdated` `userIdUpdated` INT(11) NULL DEFAULT NULL, CHANGE `dateUpdated` `dateUpdated` DATE NULL DEFAULT NULL;
+
+
+ALTER TABLE `PositionInterviewlevelXRef` DROP FOREIGN KEY `PositionInterviewlevelXRef_ibfk_1`; 
+ALTER TABLE `PositionInterviewlevelXRef` ADD CONSTRAINT `PositionInterviewlevelXRef_ibfk_1` FOREIGN KEY (`positionId`) REFERENCES `Position`(`positionId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `Position` ADD `interviewType` VARCHAR(250) NULL DEFAULT NULL AFTER `approvePersonId`;
+
+
+ALTER TABLE `PositionInterviewlevelXRef` CHANGE `contactNo` `contactNo` VARCHAR(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+
+
+
+-------------------Mayuri ----15-06-2020-------------
+
+ALTER TABLE `CandidateEvolution` CHANGE `interviewTime` `interviewTime` VARCHAR(50) NULL DEFAULT NULL;
+
+INSERT INTO `DrowpdownHd` (`drowpdownId`, `drowpdownName`, `companyId`, `groupId`, `allowModi`, `userId`, `userIdUpdate`, `dateUpdate`) VALUES (NULL, 'sourceOfProfile', '1', NULL, 'N', '1', '1', '2019-08-13 00:00:00');
+
+INSERT INTO `DrowpdownList` (`drowpdownListId`, `drowpdownId`, `listValue`, `listCode`, `activeStatus`) VALUES (NULL, '41', 'Naukri.com', 'NC', 'A');
+
+ALTER TABLE `InterviewScheduler` ADD INDEX( `positionId`);
+
+----------------------------------------------------------------------------------------------

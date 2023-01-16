@@ -1,0 +1,61 @@
+---------bharat 14-aug-2020----------
+
+
+CREATE TABLE `EmployeeExpenseClaims` (
+  `employeeExpeneseClaimId` int(11) NOT NULL,
+  `expenceTitle` varchar(250) DEFAULT NULL,
+  `employeId` int(11) NOT NULL,
+  `claimDate` date DEFAULT NULL,
+  `expenseTypeId` int(11) NOT NULL,
+  `billNumber` int(111) NOT NULL,
+  `marchantName` varchar(250) NOT NULL,
+  `amountExpenses` int(250) NOT NULL,
+  `remark` varchar(250) DEFAULT NULL,
+  `filePath` varchar(500) DEFAULT NULL,
+  `status` varchar(11) NOT NULL,
+  `approvalRemark` varchar(250) DEFAULT NULL,
+  `recheckRemark` varchar(250) DEFAULT NULL,
+  `approvalDate` date DEFAULT NULL,
+  `varifyStatus` varchar(250) DEFAULT NULL,
+  `payrollMonth` varchar(250) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `dateCreated` date DEFAULT NULL,
+  `dateUpdate` date DEFAULT NULL,
+  `userIdUpDate` date DEFAULT NULL,
+  `companyId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `EmployeeExpenseClaims`
+  ADD PRIMARY KEY (`employeeExpeneseClaimId`),
+  ADD KEY `employeId` (`employeId`);
+  
+  ALTER TABLE `EmployeeExpenseClaims`
+  MODIFY `employeeExpeneseClaimId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  
+  ALTER TABLE `EmployeeExpenseClaims`
+  ADD CONSTRAINT `EmployeeExpenseClaims_ibfk_1` FOREIGN KEY (`employeId`) REFERENCES `Employee` (`employeeId`);
+  
+  
+  CREATE TABLE `ExpenseType` (
+  `expenseTypeId` int(11) NOT NULL,
+  `expenseTypeName` varchar(250) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `dateCreated` date DEFAULT NULL,
+  `userIdUpdate` int(11) DEFAULT NULL,
+  `dateUpdate` date DEFAULT NULL,
+  `companyId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `ExpenseType`
+  ADD PRIMARY KEY (`expenseTypeId`);
+  
+  ALTER TABLE `ExpenseType`
+  MODIFY `expenseTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+
+ALTER TABLE `EmployeeExpenseClaims` CHANGE `userIdUpDate` `userIdUpDate` INT(11) NULL DEFAULT NULL;
+
+ALTER TABLE `EmployeeExpenseClaims` CHANGE `status` `status` VARCHAR(11) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+

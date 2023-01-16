@@ -1,0 +1,6 @@
+===================================Singya Bhalse===============================================================================
+1. #187: radio button not working (employee will search based on radio button).
+2. #198: when we submit data in mark bulk leave then remark is not showing in time and attendance --leave --- completed list.
+3. #195: sample files not found when i download in mark bulk leave
+4. Mark Bulk Attendace.
+===============================================================================================================================

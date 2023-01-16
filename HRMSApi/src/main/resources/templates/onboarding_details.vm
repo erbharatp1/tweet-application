@@ -1,0 +1,98 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <td style="background-color:#fafbfc"><center bgcolor="#fafbfc" style="width:100%;background-color:#fafbfc">
+          <div style="max-width:620px;font-size:0;margin:0 auto">
+            <div style="font-size:1px;line-height:1px;display:none!important"> One more step to get started </div>
+            <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td><table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td style="width:7px;font-size:1px" bgcolor="#fafbfc">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f5f6f7">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f0f2f3">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#edeef1">&nbsp;</td>
+                          <td bgcolor=""><table style="width:100%" cellspacing="0" cellpadding="0" border="0">
+                              <tbody>
+                                <tr>
+                                  <td style="text-align:center;padding:0"><div style="display:inline-block;width:100%;max-width:620px">
+                                      <table style="font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:14px;line-height:24px;color:#525c65;text-align:left;width:100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+                                          <tr>
+                                            <td style="padding-bottom:14px;padding-top:14px;background:#fdfdfd" align="center"><img src="${companyLogoPath}"></td>
+                                          </tr>
+                                           <tr><td style="width:100%;background:#fff;margin:0;padding:17px 0 0 0;border-top:3px solid #0570d4">
+											<table style="background:#fff;padding:0 40px 10px 40px;width:100%">
+												<tbody><tr>
+                                            <td><p style="Margin:0;font-size:18px;line-height:12px;color:#102231;font-weight:bold"> <strong> Dear ${firstName} ${lastName},</strong><br>
+                                                <br>
+                                              </p></td>
+                                          </tr>
+                                          <tr>
+                                            <td style="font-size:14px;line-height:23px;color:#525c65">Greetings from (${companyName}) this is to inform your that some information is still pending in the form filled by you. Pending details are :<p style="color:#2f3b7c;text-align:center;margin-bottom: 0;"><strong style="color:#000">Comment:</strong> ${comment}</p>
+<p style="color:#2f3b7c;text-align:center;margin-top: 0;"><strong style="color:#000">Code:</strong>  ${password}</p></td>
+                                          </tr>
+                                          <tr>
+                                            <td style="padding:15px 0 40px 0;border-bottom:1px solid #f3f6f9;width:100%" align="center"><table style="border-collapse:separate!important;border-radius:15px;width:247px;text-align:center" cellspacing="0" cellpadding="0" border="0">
+                                                <tbody>
+                                                  <tr>
+                                                    <td valign="top" align="center"><a style="background:#0570d4;border:1px solid #0570d4;border-radius:26px;color:#ffffff;display:block;font-family:Open Sans,Helvetica,Arial,sans-serif;font-size:14px;padding:13px 22px;text-decoration:none" target="_blank" href="${link}">Complete Onboarding</a></td>
+                                                  </tr>
+                                                </tbody>
+                                              </table></td>
+                                          </tr>
+                                          <tr>
+                                            <td style="padding-top:30px;font-size: 14px;line-height: 23px;color: #525c65;padding-bottom: 26px;">
+											For any further assistance please contact.</td>
+                                          </tr>
+                                          <tr>
+                                            <td style="font:14px/5px Arial,Helvetica,sans-serif;color:#363636;padding:0 0 17px;margin:0"> Regards, </td>
+                                          </tr>
+                                          <tr>
+                                            <td style="font:14px/5px Arial,Helvetica,sans-serif;color:#363636;padding:0 0 12px;margin:0"> HR Team </td>
+                                          </tr>
+                                          <tr>
+                                            <td style="font:bold 14px/16px Arial,Helvetica,sans-serif;color:#363636;padding:0 0 7px"> ${companyName} </td>
+                                          </tr>
+                                          <tr>
+                                                    <td style="width: 100%;font-size: 13px;text-align: left;"><p style="Margin:15px 0 0 0;color: #a8a6a6;">
+														
+														<span style="display: inline-block;margin: 3px 0 0 0;padding: 0px 0 0 0px;vertical-align: middle;">Powered by <a href="http://www.fabhr.in/" target="_blank" style="color: #0570d4;display: inline-block;vertical-align: middle;padding-left: 3px;"> <img src="https://i.ibb.co/6wT3SGN/fabhr-logo.png" style="max-width: 60px;"></a> </span></p></td>
+                                                  </tr>
+											</tbody></table>
+										   </td>
+                                        </tr></tbody>
+                                      </table>
+                                    </div></td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e0e2e5">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e0e2e4">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#e8ebed">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td style="height:1px;width:100%;line-height:1px;font-size:0" bgcolor="#f1f3f6">&nbsp;</td>
+                                </tr>
+                              </tbody>
+                            </table></td>
+                          <td style="width:1px;font-size:1px" bgcolor="#edeef1">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f0f2f3">&nbsp;</td>
+                          <td style="width:1px;font-size:1px" bgcolor="#f5f6f7">&nbsp;</td>
+                          <td style="width:7px;font-size:1px" bgcolor="#fafbfc">&nbsp;</td>
+                        </tr>
+                      </tbody>
+                    </table></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </center></td>
+    </tr>
+  </tbody>
+</table>

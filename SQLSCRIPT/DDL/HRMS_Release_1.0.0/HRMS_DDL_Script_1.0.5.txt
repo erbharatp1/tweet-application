@@ -1,0 +1,51 @@
+----------bharat patel -----24-06-2020----------
+
+ALTER TABLE `Position` ADD `extraBudgetApprovalRemark` TEXT NULL DEFAULT NULL AFTER `extraBudgetRemark`;
+ 
+ ALTER TABLE `CompanyPolicy` CHANGE `policyName` `policyName` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE `fileLocation` `fileLocation` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ 
+ ALTER TABLE `Position` CHANGE `remark` `remark` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ 
+ ALTER TABLE `Separation` CHANGE `description` `description` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci
+ NULL DEFAULT NULL, CHANGE `remark` 
+ `remark` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ 
+ ALTER TABLE `TMSCompensantoryOff` CHANGE `cancelRemark` `cancelRemark` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ 
+
+ ALTER TABLE `Position` CHANGE `noOfLevel` `noOfLevel` VARCHAR(11) NOT NULL, CHANGE `employeementType` `employeementType`
+ VARCHAR(11) NOT NULL, CHANGE `sourceOfPosion` `sourceOfPosion` VARCHAR(11) NOT NULL;
+ 
+================================Singya Bhalse-24-June-2020=======================================
+ALTER TABLE `Employee` ADD `tdsPlanType` VARCHAR(10) NULL DEFAULT NULL AFTER `tdsStatus`;
+ALTER TABLE `TdsSlab` ADD `tdsSlabPlanType` VARCHAR(2) NULL DEFAULT NULL AFTER `tdsSLabHdId`;
+
+INSERT INTO `TdsSlab` (`tdsSLabId`, `tdsSLabHdId`, `tdsSlabPlanType`, `limitFrom`, `limitTo`, `tdsPercentage`, `allowModi`, `userId`, `dateCreated`, `userIdUpdate`, `dateUpdate`, `activeStatus`) VALUES
+(95, 43, 'B', '0.00', '250000.00', '0.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(96, 43, 'B', '250000.00', '500000.00', '5.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(97, 43, 'B', '500000.00', '1000000.00', '20.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(98, 43, 'B', '1000000.00', '99999999.00', '30.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(99, 43, 'B', '99999999.00', '99999999.00', '40.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(100, 43, 'B', '500000.00', '1000000.00', '20.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(101, 43, 'B', '1000000.00', '99999999.00', '30.00', NULL, 100401, '2020-06-04 11:59:54', 100401, '2020-06-04 11:59:54', 'AC'),
+(102, 45, 'B', '0.00', '300000.00', '0.00', NULL, 100401, '2019-10-21 15:43:04', NULL, NULL, 'AC'),
+(103, 45, 'B', '300000.00', '500000.00', '5.00', NULL, 100401, '2019-10-21 15:43:04', NULL, NULL, 'AC'),
+(104, 45, 'B', '500000.00', '1000000.00', '20.00', NULL, 100401, '2019-10-21 15:43:04', NULL, NULL, 'AC'),
+(105, 45, 'B', '1000000.00', '99999999.00', '30.00', NULL, 100401, '2019-10-21 15:43:04', NULL, NULL, 'AC'),
+(106, 46, 'B', '0.00', '300000.00', '0.00', NULL, 1, '2019-07-25 13:26:04', NULL, NULL, 'AC'),
+(107, 46, 'B', '300000.00', '500000.00', '5.00', NULL, 1, '2019-07-25 13:26:04', NULL, NULL, 'AC'),
+(108, 46, 'B', '500000.00', '1000000.00', '20.00', NULL, 1, '2019-07-25 13:26:04', NULL, NULL, 'AC'),
+(109, 46, 'B', '1000000.00', '99999999.00', '30.00', NULL, 1, '2019-07-25 13:26:04', NULL, NULL, 'AC'),
+(110, 47, 'B', '1.00', '99999999.00', '4.00', NULL, 100401, '2020-04-30 13:37:30', 100401, '2020-04-30 13:37:30', 'AC');
+===============================================================================================
+
+
+----------bharat patel -----25-06-2020----------
+
+
+ALTER TABLE `Position` ADD `approvalRemark` TEXT NULL DEFAULT NULL AFTER `remark`;
+
+
+
+ 
